@@ -9,6 +9,9 @@ use App\Services\CategoryService;
 use App\Repositories\ProductRepository;
 use App\Repositories\ProductRepositoryInterface;
 use App\Services\ProductService;
+use App\Repositories\UserRepository;
+use App\Repositories\UserRepositoryInterface;
+use App\Services\UserService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
         $this->app->bind(ProductService::class, function ($app) {
             return new ProductService($app->make(ProductRepositoryInterface::class));
+        });
+
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(UserService::class, function ($app) {
+            return new UserService($app->make(UserRepositoryInterface::class));
         });
     }
 
