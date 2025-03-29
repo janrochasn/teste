@@ -6,6 +6,9 @@ use Illuminate\Support\ServiceProvider;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CategoryRepositoryInterface;
 use App\Services\CategoryService;
+use App\Repositories\ProductRepository;
+use App\Repositories\ProductRepositoryInterface;
+use App\Services\ProductService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(CategoryService::class, function ($app) {
             return new CategoryService($app->make(CategoryRepositoryInterface::class));
+        });
+
+        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
+        $this->app->bind(ProductService::class, function ($app) {
+            return new ProductService($app->make(ProductRepositoryInterface::class));
         });
     }
 
