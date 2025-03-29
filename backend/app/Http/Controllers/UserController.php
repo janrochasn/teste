@@ -29,11 +29,11 @@ class UserController extends Controller
         $user = $this->userService->register([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'password' => bcrypt('senha123'),
+            'password' => bcrypt($request->input('password')),
         ]);
 
         if ($user) {
-            return response()->json(['message' => 'Usuário criado com sucesso!', 'user' => $user], 200);
+            return response()->json(['message' => 'Usuário criado com sucesso!'], 200);
         }
         
         return response()->json(['message' => 'Erro ao criar usuário'], 500);
