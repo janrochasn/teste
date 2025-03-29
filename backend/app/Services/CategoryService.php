@@ -13,7 +13,7 @@ class CategoryService
         //
     }
 
-    public function listAll() : JsonResponse
+    public function listAll()
     {
         return $this->categoryRepository->listAll();
     }

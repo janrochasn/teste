@@ -7,8 +7,8 @@ use App\Models\Category;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function listAll(): JsonResponse
+    public function listAll()
     {
-        return response()->json(Category::select('name')->orderBy('name', 'asc')->get());
+        return Category::select('name')->orderBy('name', 'asc')->get();
     }
 }

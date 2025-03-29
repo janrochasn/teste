@@ -7,11 +7,11 @@ use App\Models\Product;
 
 interface ProductRepositoryInterface
 {
-    public function listAll(): JsonResponse;
+    public function listAll();
 
-    public function listByProductId(int $product_id): JsonResponse;
+    public function listByProductId(int $product_id);
 
-    public function listByCategoryId(int $category_id): JsonResponse;
+    public function listByCategoryId(int $category_id);
 
-    public function listByQuery(string $query_search): JsonResponse;
+    public function listByQuery(string $query_search);
 }

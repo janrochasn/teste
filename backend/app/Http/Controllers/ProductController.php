@@ -23,7 +23,7 @@ class ProductController extends Controller
             $products = $this->productService->listAll();
         }
 
-        return $products;
+        return response()->json($products);
     }
 
     public function listByProductId(int $product_id)

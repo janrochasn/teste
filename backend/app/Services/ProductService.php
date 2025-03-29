@@ -13,22 +13,22 @@ class ProductService
         //
     }
 
-    public function listAll() : JsonResponse
+    public function listAll()
     {
         return $this->productRepository->listAll();
     }
 
-    public function listByProductId(int $product_id) : JsonResponse
+    public function listByProductId(int $product_id)
     {
         return $this->productRepository->listByProductId($product_id);
     }
 
-    public function listByCategoryId(int $category_id) : JsonResponse
+    public function listByCategoryId(int $category_id)
     {
         return $this->productRepository->listByCategoryId($category_id);
     }
 
-    public function listByQuery(string $query_search) : JsonResponse
+    public function listByQuery(string $query_search)
     {
         return $this->productRepository->listByQuery($query_search);
     }

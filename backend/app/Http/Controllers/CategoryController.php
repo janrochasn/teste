@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Services\CategoryService;
+use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
@@ -11,9 +12,9 @@ class CategoryController extends Controller
         //
     }
 
-    public function listAll()
+    public function listAll() : JsonResponse
     {
         $categories = $this->categoryService->listAll();
-        return $categories;
+        return response()->json($categories);
     }
 }

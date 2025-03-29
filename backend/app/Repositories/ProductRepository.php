@@ -7,45 +7,37 @@ use App\Models\Product;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    public function listAll(): JsonResponse
+    public function listAll()
     {
-        return response()->json(
-            Product::select('name', 'description', 'price','image_url')
-            ->orderBy('name', 'asc')
-            ->paginate(10)
-        );
+        return  Product::select('name', 'description', 'price','image_url')
+                ->orderBy('name', 'asc')
+                ->paginate(10);
     }
 
-    public function listByProductId(int $product_id): JsonResponse
+    public function listByProductId(int $product_id)
     {
-        return response()->json(
-            Product::select('name', 'description', 'price','image_url')
-            ->where('id', '=', $product_id)
-            ->orderBy('name', 'asc')
-            ->get()
-        );
+        return Product::select('name', 'description', 'price','image_url')
+                ->where('id', '=', $product_id)
+                ->orderBy('name', 'asc')
+                ->get();
     }
 
-    public function listByCategoryId(int $category_id): JsonResponse
+    public function listByCategoryId(int $category_id)
     {
-        return response()->json(
-            Product::select('name', 'description', 'price','image_url')
-            ->where('category_id', '=', $category_id)
-            ->orderBy('name', 'asc')
-            ->get()
-        );
+        return Product::select('name', 'description', 'price','image_url')
+                ->where('category_id', '=', $category_id)
+                ->orderBy('name', 'asc')
+                ->get();
     }
 
-    public function listByQuery(string $query_search): JsonResponse
+    public function listByQuery(string $query_search)
     {
-        return response()->json(
-            Product::select('name', 'description', 'price','image_url')
-            ->whereAny([
-                'name',
-                'description',
-            ], 'like', "%$query_search%")
-            ->orderBy('name', 'asc')
-            ->get()
-        );
+        return Product::select('name', 'description', 'price','image_url')
+                ->whereAny([
+                    'name',
+                    'description',
+                ], 'like', "%$query_search%")
+                ->orderBy('name', 'asc')
+                ->get();
     }
 }

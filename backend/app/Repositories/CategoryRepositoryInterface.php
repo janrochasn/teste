@@ -7,5 +7,5 @@ use App\Models\Category;
 
 interface CategoryRepositoryInterface
 {
-    public function listAll(): JsonResponse;
+    public function listAll();
 }
