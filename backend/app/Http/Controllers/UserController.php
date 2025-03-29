@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -41,6 +43,24 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $user = User::where('email', $request->input('email'))->first();
+
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['As credenciais informadas estão incorretas.'],
+            ]);
+        }
+
+        $token = $user->createToken($request->input('email'))->plainTextToken;
+
+        return response()->json([
+            'message' => 'Usuário validado com sucesso.',
+            'token' => $token,
+        ]);
     }
 }
