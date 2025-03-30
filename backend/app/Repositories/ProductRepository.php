@@ -9,14 +9,14 @@ class ProductRepository implements ProductRepositoryInterface
 {
     public function listAll()
     {
-        return  Product::select('name', 'description', 'price','image_url')
+        return  Product::select('id', 'name', 'description', 'price','image_url')
                 ->orderBy('name', 'asc')
                 ->paginate(10);
     }
 
     public function listByProductId(int $product_id)
     {
-        return Product::select('name', 'description', 'price','image_url')
+        return Product::select('id', 'name', 'description', 'price','image_url')
                 ->where('id', '=', $product_id)
                 ->orderBy('name', 'asc')
                 ->get();
@@ -24,7 +24,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function listByCategoryId(int $category_id)
     {
-        return Product::select('name', 'description', 'price','image_url')
+        return Product::select('id', 'name', 'description', 'price','image_url')
                 ->where('category_id', '=', $category_id)
                 ->orderBy('name', 'asc')
                 ->get();
@@ -32,7 +32,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function listByQuery(string $query_search)
     {
-        return Product::select('name', 'description', 'price','image_url')
+        return Product::select('id', 'name', 'description', 'price','image_url')
                 ->whereAny([
                     'name',
                     'description',

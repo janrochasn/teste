@@ -9,6 +9,6 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function listAll()
     {
-        return Category::select('name')->orderBy('name', 'asc')->get();
+        return Category::select('id', 'name')->orderBy('name', 'asc')->get();
     }
 }
