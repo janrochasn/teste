@@ -5,6 +5,14 @@ import axios from "axios";
 const Navbar = () => {
     const navigate = useNavigate();
     const [categorias, setCategorias] = useState([]);
+    const [query, setQuery] = useState("");
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (query.trim()) {
+          navigate(`/produtos?search=${query}`);
+        }
+      };
 
     useEffect(() => {
     const token = localStorage.getItem('token');
@@ -44,8 +52,8 @@ const Navbar = () => {
                             </ul>
                         </li>
                     </ul>
-                    <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search"></input>
+                    <form className="d-flex" onSubmit={handleSearch}>
+                        <input className="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search" onChange={(e) => setQuery(e.target.value)}></input>
                         <button className="btn btn-outline-light" type="submit">Pesquisar</button>
                     </form>
                 </div>

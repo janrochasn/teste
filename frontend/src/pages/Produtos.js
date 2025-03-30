@@ -13,15 +13,14 @@ const Produtos = () => {
   const fetchProdutos = async (pagina) => {
     try {
       const token = localStorage.getItem('token');
-      const urlAtual = window.location.href
       let url = '';
       let type = '';
 
-      if (urlAtual.includes('categoria')) {
-        url = `http://127.0.0.1:8000/api/products?category=${urlAtual.split("=")[1]}`;
+      if (location['search'].includes('categoria')) {
+        url = `http://127.0.0.1:8000/api/products?category=${location['search'].split("=")[1]}`;
         type = 'categories';
-      } else if (urlAtual.includes('search')) {
-        url = `http://127.0.0.1:8000/api/products?search=${urlAtual.split("=")[1]}`;
+      } else if (location['search'].includes('search')) {
+        url = `http://127.0.0.1:8000/api/products?search=${location['search'].split("=")[1]}`;
         type = 'search';
       } else {
         url = `http://127.0.0.1:8000/api/products?page=${pagina}`;
@@ -34,16 +33,17 @@ const Produtos = () => {
       if (response.status === 200) {
         if(type == 'categories' || type == 'search') {
           setProdutos(response.data);
+          setTotalPaginas(1);
         } else {
           setProdutos(response.data.data);
           setTotalPaginas(response.data.last_page);
         }
-      } else {
+      } else if(response.status === 401){
         navigate("/login");
       }
     } catch (error) {
       console.log(error);
-      navigate("/login");
+      //navigate("/login");
     }
   };
 
@@ -96,7 +96,7 @@ const Produtos = () => {
                     alt={produto.name}
                   />
                   <div className="card-body">
-                    <h5 className="card-title">{produto.name}</h5>
+                    <h5 className="card-title" title={produto.name}>{produto.name}</h5>
                     <p className="card-text">R$ {produto.price.replace(".", ",")}</p>
                     <a href={`produtos/${produto.id}`} className="btn btn-primary">Ver detalhes</a>
                   </div>

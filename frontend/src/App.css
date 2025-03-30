@@ -55,6 +55,11 @@
   object-fit: contain;
 }
 
+.img-produto {
+  height: 400px;
+  object-fit: contain;
+}
+
 .produto-card .card-title {
   white-space: nowrap;
   overflow: hidden;
