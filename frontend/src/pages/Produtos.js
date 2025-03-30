@@ -1,35 +1,59 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 const Produtos = () => {
   const [produtos, setProdutos] = useState([]);
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const [totalPaginas, setTotalPaginas] = useState(1);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
+  const fetchProdutos = async (pagina) => {
+    try {
+      const token = localStorage.getItem('token');
+      const urlAtual = window.location.href
+      let url = '';
+      let type = '';
 
-    const fetchProdutos = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/api/products', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+      if (urlAtual.includes('categoria')) {
+        url = `http://127.0.0.1:8000/api/products?category=${urlAtual.split("=")[1]}`;
+        type = 'categories';
+      } else if (urlAtual.includes('search')) {
+        url = `http://127.0.0.1:8000/api/products?search=${urlAtual.split("=")[1]}`;
+        type = 'search';
+      } else {
+        url = `http://127.0.0.1:8000/api/products?page=${pagina}`;
+        type = 'all';
+      }
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
-        if (response.status === 200) {
-          setProdutos(response.data.data);
+      if (response.status === 200) {
+        if(type == 'categories' || type == 'search') {
+          setProdutos(response.data);
         } else {
-          navigate("/login");
+          setProdutos(response.data.data);
+          setTotalPaginas(response.data.last_page);
         }
-      } catch (error) {
+      } else {
         navigate("/login");
       }
-    };
+    } catch (error) {
+      console.log(error);
+      navigate("/login");
+    }
+  };
 
-    fetchProdutos();
-  }, [navigate]);
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const page = query.get("page") ? parseInt(query.get("page")) : 1;
+    setPaginaAtual(page);
+    fetchProdutos(page);
+  }, [location.search, navigate]);
 
-  // Função para dividir os produtos em grupos de 3
   const dividirEmGrupos = (arr, tamanho) => {
     const grupos = [];
     for (let i = 0; i < arr.length; i += tamanho) {
@@ -38,7 +62,22 @@ const Produtos = () => {
     return grupos;
   };
 
-  // Agora chamamos dividirEmGrupos depois que produtos é atualizado
+  const paginaAnterior = () => {
+    if (paginaAtual > 1) {
+      const novaPagina = paginaAtual - 1;
+      setPaginaAtual(novaPagina);
+      navigate(`?page=${novaPagina}`);
+    }
+  };
+
+  const proximaPagina = () => {
+    if (paginaAtual < totalPaginas) {
+      const novaPagina = paginaAtual + 1;
+      setPaginaAtual(novaPagina);
+      navigate(`?page=${novaPagina}`);
+    }
+  };
+  
   const produtosEmGrupos = dividirEmGrupos(produtos, 3);
 
   return (
@@ -66,6 +105,15 @@ const Produtos = () => {
             ))}
           </div>
         ))}
+      </div>
+      <div className="d-flex justify-content-center mt-3 mb-3">
+        <button className="btn btn-secondary me-2" onClick={paginaAnterior} disabled={paginaAtual === 1}>
+          Anterior
+        </button>
+        <span>Página {paginaAtual} de {totalPaginas}</span>
+        <button className="btn btn-secondary ms-2" onClick={proximaPagina} disabled={paginaAtual === totalPaginas}>
+          Próxima
+        </button>
       </div>
     </div>
   );
