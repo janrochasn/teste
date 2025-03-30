@@ -88,7 +88,7 @@ const Produtos = () => {
           <div key={index} className="row">
             {grupo.map((produto) => (
               <div key={produto.id} className="col-md-4">
-                <div className="card produto-card mt-2" style={{ width: "18rem", maxHeight: "30rem" }}>
+                <div className="card produto-card mt-4" style={{ width: "18rem", maxHeight: "30rem" }}>
                   <img
                     src={`http://127.0.0.1:8000/${produto.image_url}`}
                     className="card-img-top"
