@@ -59,7 +59,16 @@ const Cadastrar = () => {
                                     </div>
                                     <div className="row mt-2">
                                         <div className="col-12">
-                                            <input type="password" className="form-control" id="password" onChange={(e) => setPassword(e.target.value)} placeholder="Senha"></input>
+                                            <div class="input-group">
+                                                <input type="password" className="form-control" id="password" onChange={(e) => setPassword(e.target.value)} placeholder="Senha"></input>
+                                                <span class="input-group-text" title={`A senha deve conter:
+                                                    - Pelo menos 12 caracteres
+                                                    - Uma letra maiúscula
+                                                    - Uma letra minúscula
+                                                    - Um número
+                                                    - Um caractere especial`}>i
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="d-grid gap-2 mt-2">
