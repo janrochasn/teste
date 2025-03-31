@@ -24,8 +24,6 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-RUN docker-php-ext-install pdo_mysql
-
 EXPOSE 9000
 
 ENTRYPOINT ["docker-entrypoint.sh"]

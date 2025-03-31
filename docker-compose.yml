@@ -5,11 +5,10 @@ services:
     ports:
       - "3307:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: backend
       MYSQL_USER: user
       MYSQL_PASSWORD: userpassword
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: "root"
     volumes:
       - db_data:/var/lib/mysql
     networks:
@@ -31,13 +30,13 @@ services:
     environment:
       - APP_ENV=local
       - APP_DEBUG=true
-      - APP_KEY=base64:randomkeyhere
+      - APP_KEY=base64:jfdklsajflkdsajflkdsajflkdsajf==
       - DB_CONNECTION=mysql
       - DB_HOST=db
       - DB_PORT=3306
       - DB_DATABASE=backend
       - DB_USERNAME=root
-      - DB_PASSWORD=
+      - DB_PASSWORD=root
 
   frontend:
     build:

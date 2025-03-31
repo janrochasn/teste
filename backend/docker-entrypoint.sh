@@ -6,6 +6,4 @@ composer install --no-dev --prefer-dist --verbose
 
 composer dump-autoload
 
-php-fpm
-
-php artisan serve
+php artisan serve --host=0.0.0.0 --port=8000
